@@ -16,7 +16,7 @@ var host = {
     /**
     * @swagger
     *
-    * /instantPropertyChange?effect={effectNumber}&property={propertyNumber}&amount={value}
+    * /instantPropertyChange?effect={effectNumber}&property={propertyNumber}&amount={value}:
     *      get:
     *          description: Adds the given value to a certain effect property value.
     *          parameters:
