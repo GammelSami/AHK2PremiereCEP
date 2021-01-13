@@ -3,6 +3,62 @@
  */
 var host = {
 
+
+
+
+
+/********************* Sami's custom functions *********************/
+
+
+
+
+
+    /**
+    * @swagger
+    *
+    * /instantPropertyChange?effect={effectNumber}&property={propertyNumber}&amount={value}
+    *      get:
+    *          description: Adds the given value to a certain effect property value.
+    *          parameters:
+    *              - name: effect
+    *                description: the 0 based effect number https://premiereonscript.com/wp-content/uploads/2018/03/Premiere-v12-Effect-Documentation.pdf
+    *                in: path
+    *                type: number
+    *              - name: property
+    *                description: the 0 based property number
+    *                in: path
+    *                type: number
+    *              - name: amount
+    *                description: the amount to add
+    *                in: path
+    *                type: number
+    */
+    instantPropertyChange: function (effect, property, amount) {
+      effect = parseInt(effect);
+      property = parseInt(property);
+      amount = parseInt(amount);
+      var val = app.project.activeSequence.getSelection()[0].components[effect].properties[property].getValue();
+      app.project.activeSequence.getSelection()[0].components[effect].properties[property].setValue(val+amount,1);
+      return val+amount;
+    },
+
+  // increaseVideoSelectionLayer: function () {
+  //   getSelectedVideo()
+  //   function getSelectedVideo() {
+  //     return app.project.activeSequence.getSelection()[0];
+  //   }
+  // },
+
+
+
+
+
+  /********************* Sami's custom functions END *********************/
+
+
+
+
+
     /**
      * @swagger
      *
@@ -38,7 +94,7 @@ var host = {
 
     /**
      * @swagger
-     * 
+     *
      * /selectSelectedNamedVideoLayer?name={name}:
      *      get:
      *          description: Selects the proper named video clip of all currently selected clips.
@@ -263,10 +319,10 @@ var host = {
     addCustomMarker: function (color) {
         var currentSequence = app.project.activeSequence;
         var markerLayer = currentSequence.videoTracks[currentSequence.videoTracks.numTracks - 1];
-        
+
         helper.fixPlayHeadPosition(helper.projectFrameRate);
         var currentPlayheadPosition = currentSequence.getPlayerPosition();
-        
+
 
         var markerChild = helper.getMarkerItemInMarkerFolder(color);
 
@@ -462,7 +518,7 @@ var host = {
 };
 
 /**
- * 
+ *
  * Define your helping functions here, these are NOT published on localhost.
  */
 var helper = {
@@ -576,10 +632,10 @@ var helper = {
         var markerLayer = currentSequence.videoTracks[currentSequence.videoTracks.numTracks - 1];
         var markerClips = markerLayer.clips;
         var markerCount = markerClips.numItems;
-    
+
         var lastMarker = markerClips[markerCount - 1];
         debugger;
-    
+
         // Dirty coded dirty hack, premiere is... not exact with its ticks?!
         // If last marker has no name = This is my new marker. If it has a name -> streatched mode marker
         if (lastMarker.name === "0" || lastMarker.name === "1" || lastMarker.name === "2" ||
